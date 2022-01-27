@@ -3,17 +3,16 @@ import csv
 
 #FUNCION PARA INGRESAR EL NOMBRE DEL EMPLEADO.
 
-def input_empleado(name):
-        name = str(input('Escriba su apellido: '))
-        if name in lista_empleados:
+def input_empleado():
+        name = str(input('Ingrese su apellido: '))
 
-            opcion = str(input(f'Bienvenido {name}, seleccione la opcion CONSULTAR, AGREGAR o escriba FIN para salir: ')).upper()
+        return name
 
-        else:
-            print('El apellido no corresponde a un empleado')
-            pass
+def input_opcion():
+        opcion = str(input(f'Bienvenido {name} eleccione la opcion CONSULTAR AGREGAR O FIN para terminar la consulta: ')).upper()
 
-        return name, opcion 
+        return opcion 
+
 
 #FUNCION PARA CREAR ARCHIVO CSV DE STOCK INICIAL
 def creacion_csv():
@@ -24,7 +23,7 @@ def creacion_csv():
     
     writer = csv.DictWriter(csvfile, fieldnames=header)
 
-    mi_codigo = '001'
+    mi_codigo = '111'
     mi_prenda = 'remera'
     mi_talle = 'small'
     mi_cantidad = '10'
@@ -32,20 +31,35 @@ def creacion_csv():
     writer.writeheader()
     fila = {'CODIGO': mi_codigo, 'PRENDA': mi_prenda, 'TALLE': mi_talle ,'CANTIDAD': mi_cantidad}
     writer.writerow(fila)
-    
+    writer.writerow({'CODIGO': '222', 'PRENDA': 'remera', 'TALLE': 'medium', 'CANTIDAD': '12'})
 
   
 
-    csvfile.close()
+    csvfile.close()            
 
 
 #FUNCION PARA CONSULTAR STOCK POR CODIGO
 def consultarstock_csv():
     
         csvfile= open('stockintegral.csv')
-        stock_actual   = list(csv.DictReader(csvfile))
+        datos   = list(csv.DictReader(csvfile))
 
-        print(stock_actual)
+        cantidad_filas = len(datos)
+
+        
+        cod_producto = str(input('Escriba el codigo de producto que desea consultar:'))
+        
+        
+        for producto in range(cantidad_filas):
+            id_producto = datos[producto]['CODIGO']
+            stock_producto = datos[producto]['CANTIDAD']
+            
+        if cod_producto == id_producto:
+                print('El stock del producto numero:', cod_producto, 'es de:', stock_producto , 'u.' )
+                
+        else: 
+                print('El codigo ingresado no corresponde a un producto')
+                
 
 
         csvfile.close()
@@ -69,25 +83,22 @@ def agregar_stock():
 if __name__=='__main__':
     creacion_csv()
     print('Bienvenido al sistema de Stock Granero')
-
-
-    lista_empleados = ['GRANERO', 'SAMAD']
     name = None
-      
 
-    while True:
-        name, opcion_empleado = input_empleado(name)
-        print(f'Estimado/a {name}, su opcion elegida es {opcion_empleado}')
 
+name = input_empleado()
+while True:        
+        opcion = input_opcion()
+        print(f'Estimado/a {name}, su opcion elegida es {opcion}')
     
-            
-        if opcion_empleado == 'FIN':
-                break 
 
-        elif opcion_empleado == 'CONSULTAR':
-                consultarstock_csv()
+        if opcion == 'FIN':
+                 break 
+
+        elif opcion == 'CONSULTAR':
+                        consultarstock_csv()
  
-        elif opcion_empleado == 'AGREGAR':
-                agregar_stock()
+        elif opcion == 'AGREGAR':
+                        agregar_stock()
         else: 
-                print('La opcion seleccionada es erronea, intente nuevamente')
+                        print('La opcion seleccionada es erronea, intente nuevamente')
