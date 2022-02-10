@@ -51,14 +51,15 @@ def consultarstock_csv():
         
         
         for producto in range(cantidad_filas):
-            id_producto = datos[producto]['CODIGO']
-            stock_producto = datos[producto]['CANTIDAD']
-            
-        if cod_producto == id_producto:
-                print('El stock del producto numero:', cod_producto, 'es de:', stock_producto , 'u.' )
-                
-        else: 
-                print('El codigo ingresado no corresponde a un producto')
+                id_producto = datos[producto]['CODIGO']
+                stock_producto = datos[producto]['CANTIDAD']
+
+                if cod_producto == id_producto:
+                        print('El stock del producto numero', cod_producto , 'es de', stock_producto, 'u')
+                        break
+                else:
+                        print('El codigo ingresado no corresponde a un producto')
+                        
                 
 
 
